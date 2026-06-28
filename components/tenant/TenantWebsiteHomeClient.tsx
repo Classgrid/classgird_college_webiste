@@ -31,7 +31,7 @@ import {
   SyllabusPage,
   SystemMessagePage,
 } from "./TenantPages";
-import { decodeRouteSegment, normalizeOrgType, resolveFacultyLabel, resolveProgramLabel } from "./tenant-utils";
+import { decodeRouteSegment, getBrandTitle, normalizeOrgType, resolveFacultyLabel, resolveProgramLabel } from "./tenant-utils";
 
 type TenantWebsiteHomeClientProps = {
   data: TenantSiteData;
@@ -40,14 +40,15 @@ type TenantWebsiteHomeClientProps = {
 };
 
 function buildSchema(data: TenantSiteData, tenantSlug?: string) {
+  const brandTitle = getBrandTitle(data);
   return {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    name: data.institution.name || undefined,
+    name: brandTitle || undefined,
     email: data.institution.email || undefined,
     telephone: data.institution.phone || undefined,
     address: data.institution.address || undefined,
-    url: tenantSlug ? `https://${tenantSlug}.classgrid.in` : "https://classgrid.in/college_website",
+    url: tenantSlug ? `https://${tenantSlug}` : undefined,
   };
 }
 

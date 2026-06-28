@@ -9,6 +9,11 @@ export type TenantLink = {
 };
 
 export type TenantSiteData = {
+  globalBranding: {
+    logo: string;
+    title: string;
+    colors: TenantDict;
+  };
   theme: TenantDict;
   institution: TenantDict;
   hero: TenantDict;
@@ -63,22 +68,16 @@ export const tenantWebsiteTemplateScope = {
 
 export function createEmptyTenantSiteData(): TenantSiteData {
   return {
-    theme: { primary: "#8b1d2c", primaryDark: "#5f1420", accent: "#ffffff", surface: "#f9fafb", darkSurface: "#0f172a" },
-    institution: { name: "", shortName: "", type: "junior-college", tagline: "", location: "", address: "", email: "", phone: "", whatsapp: "", establishedYear: null, logoText: "", heroImage: "" },
-    hero: { badge: "", headline: "", subHeadline: "", description: "", videoUrl: "", fallbackImages: [], fallbackImage: "", primaryCta: { label: "Apply Now", href: "/apply" }, secondaryCta: { label: "Explore Programs", href: "/programs" }, stats: [] },
-    navLinks: [
-      { label: "Home", href: "/" },
-      { label: "About", href: "/about" },
-      { label: "Programs", href: "/programs" },
-      { label: "Notices", href: "/notices" },
-      { label: "Gallery", href: "/gallery" },
-      { label: "Contact", href: "/contact" },
-    ],
-    home: { highlights: [], programsPreviewHeading: "Programs", noticesHeading: "Latest Notices", facultyHeading: "Faculty", galleryHeading: "Gallery", testimonialsHeading: "Testimonials", showQuickEnquiryFor: ["junior-college", "coaching"] },
+    globalBranding: { logo: "", title: "", colors: {} },
+    theme: { primary: "", primaryDark: "", accent: "", surface: "", darkSurface: "" },
+    institution: { name: "", shortName: "", type: "", tagline: "", location: "", address: "", email: "", phone: "", whatsapp: "", establishedYear: null, logoText: "", heroImage: "" },
+    hero: { badge: "", headline: "", subHeadline: "", description: "", videoUrl: "", fallbackImages: [], fallbackImage: "", primaryCta: { label: "", href: "" }, secondaryCta: { label: "", href: "" }, stats: [] },
+    navLinks: [],
+    home: { highlights: [], programsPreviewHeading: "", noticesHeading: "", facultyHeading: "", galleryHeading: "", testimonialsHeading: "", showQuickEnquiryFor: [] },
     aboutPage: { bannerImage: "", storyTitle: "", story: "", storyImage: "", vision: "", mission: "", principal: { name: "", designation: "", message: "", image: "" }, accreditations: [], typeSpecific: { school: {}, "junior-college": {}, coaching: {} } },
     programsPage: { title: "", description: "", eligibilitySteps: [] },
     programs: [],
-    admissionBanner: { title: "", description: "", importantDates: [], cta: { label: "Apply Now", href: "/apply" } },
+    admissionBanner: { title: "", description: "", importantDates: [], cta: { label: "", href: "" } },
     notices: [],
     meritPage: { years: [], resultStats: [] },
     toppers: [],
@@ -86,16 +85,16 @@ export function createEmptyTenantSiteData(): TenantSiteData {
     feesPage: { academicYear: "", scholarshipTitle: "", scholarshipText: "", policies: [] },
     fees: [],
     faculty: [],
-    gallery: { categories: ["All"], images: [], videos: [] },
+    gallery: { categories: [], images: [], videos: [] },
     testimonials: [],
-    eventsPage: { categories: ["All"] },
+    eventsPage: { categories: [] },
     events: [],
     alumniPage: { heading: "", successStoriesHeading: "", connectHeading: "" },
     alumni: [],
-    blogPage: { categories: ["All"] },
+    blogPage: { categories: [] },
     blogPosts: [],
     contactPage: { officeHours: "", mapEmbedUrl: "" },
-    applyPage: { heading: "Apply for Admission", confirmationPrefix: "APP", stepTitles: ["Basic Info", "Academic Info", "Submit"] },
+    applyPage: { heading: "", confirmationPrefix: "", stepTitles: [] },
     mandatoryDisclosurePage: { institutionDetails: [], trustDetails: [], affiliationDetails: [], infrastructureDetails: [], staffDetails: [], committees: [], documents: [] },
     committeesPage: { description: "", committees: [] },
     infrastructurePage: { description: "", facilities: [] },
@@ -103,11 +102,11 @@ export function createEmptyTenantSiteData(): TenantSiteData {
     syllabusPage: { description: "", groups: [] },
     examinationsPage: { description: "", patterns: [], assessments: [], schedules: [], downloads: [] },
     studentsPage: { description: "", quickLinks: [], parentCorner: [], studentPolicies: [] },
-    downloadsPage: { description: "", categories: ["All"], resources: [] },
-    quickEnquiry: { heading: "Quick Enquiry", description: "" },
+    downloadsPage: { description: "", categories: [], resources: [] },
+    quickEnquiry: { heading: "", description: "" },
     socialLinks: [],
-    footer: { importantLinks: [], legalLinks: [], newsletterCta: "Subscribe" },
-    uiStrings: { header: { searchPlaceholder: "Search site", contrastToggle: "Contrast" }, footer: { importantLinksTitle: "Important Links", connectTitle: "Connect", poweredBy: "Powered by Classgrid", copyrightPrefix: "Copyright" } },
+    footer: { importantLinks: [], legalLinks: [], newsletterCta: "" },
+    uiStrings: { header: {}, footer: {}, pages: {}, actions: {}, states: {} },
   };
 }
 

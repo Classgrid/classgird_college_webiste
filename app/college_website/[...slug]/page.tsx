@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { resolveTenantSiteData } from "@/lib/tenant-site";
+import { getTenantDomainFromHeaders, resolveTenantSiteData } from "@/lib/tenant-site";
 import { TenantWebsiteHomeClient } from "@/components/tenant/TenantWebsiteHomeClient";
 
 type Props = {
@@ -11,22 +11,17 @@ type Props = {
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
-
   const requestHeaders = await headers();
-  const tenantFromHeader = requestHeaders.get("x-tenant-slug");
-  const tenantFromQueryRaw = Array.isArray(resolvedSearchParams.tenant)
-    ? resolvedSearchParams.tenant[0]
-    : resolvedSearchParams.tenant;
-  const tenantFromQuery = typeof tenantFromQueryRaw === "string" ? tenantFromQueryRaw : "";
-  const tenantSlug = (tenantFromHeader || tenantFromQuery || "").trim().toLowerCase();
-  const data = await resolveTenantSiteData(tenantSlug);
-
+  const queryDomainRaw = Array.isArray(resolvedSearchParams.domain) ? resolvedSearchParams.domain[0] : resolvedSearchParams.domain;
+  const domain = getTenantDomainFromHeaders(requestHeaders, typeof queryDomainRaw === "string" ? queryDomainRaw : "");
+  const data = await resolveTenantSiteData(domain);
   const primarySlug = resolvedParams.slug[0] || "";
   const titlePart = primarySlug.charAt(0).toUpperCase() + primarySlug.slice(1);
+  const brandTitle = data.globalBranding.title || data.institution.name;
 
   return {
-    title: `${titlePart} | ${data.institution.name}`,
-    description: data.institution.tagline,
+    title: [titlePart, brandTitle].filter(Boolean).join(" | "),
+    description: data.institution.tagline || undefined,
   };
 }
 
@@ -34,14 +29,9 @@ export default async function CollegeWebsiteSubpage({ params, searchParams }: Pr
   const requestHeaders = await headers();
   const resolvedParams = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
+  const queryDomainRaw = Array.isArray(resolvedSearchParams.domain) ? resolvedSearchParams.domain[0] : resolvedSearchParams.domain;
+  const domain = getTenantDomainFromHeaders(requestHeaders, typeof queryDomainRaw === "string" ? queryDomainRaw : "");
+  const data = await resolveTenantSiteData(domain);
 
-  const tenantFromHeader = requestHeaders.get("x-tenant-slug");
-  const tenantFromQueryRaw = Array.isArray(resolvedSearchParams.tenant)
-    ? resolvedSearchParams.tenant[0]
-    : resolvedSearchParams.tenant;
-  const tenantFromQuery = typeof tenantFromQueryRaw === "string" ? tenantFromQueryRaw : "";
-  const tenantSlug = (tenantFromHeader || tenantFromQuery || "").trim().toLowerCase();
-  const data = await resolveTenantSiteData(tenantSlug);
-
-  return <TenantWebsiteHomeClient data={data} tenantSlug={tenantSlug} segments={resolvedParams.slug} />;
+  return <TenantWebsiteHomeClient data={data} tenantSlug={domain} segments={resolvedParams.slug} />;
 }

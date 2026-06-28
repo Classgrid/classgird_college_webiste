@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import type { TenantSiteData } from "@/content/college_website";
 import { animate, useInView } from "framer-motion";
 import {
   Award,
@@ -17,6 +18,35 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+export function getBrandTitle(data: TenantSiteData) {
+  return data.globalBranding?.title || data.institution?.name || "";
+}
+
+export function getBrandLogo(data: TenantSiteData) {
+  return data.globalBranding?.logo || data.institution?.logo || "";
+}
+
+export function getBrandColors(data: TenantSiteData) {
+  const colors = data.globalBranding?.colors || {};
+  return {
+    primary: colors.primary || colors.primaryColor || data.theme?.primary || "",
+    primaryDark: colors.primaryDark || colors.secondary || colors.secondaryColor || data.theme?.primaryDark || "",
+    accent: colors.accent || colors.accentColor || data.theme?.accent || "",
+    surface: colors.surface || data.theme?.surface || "",
+    darkSurface: colors.darkSurface || data.theme?.darkSurface || "",
+  };
+}
+
+export function brandBackground(data: TenantSiteData): CSSProperties | undefined {
+  const primary = getBrandColors(data).primary;
+  return primary ? { backgroundColor: primary } : undefined;
+}
+
+export function brandGradient(data: TenantSiteData): CSSProperties | undefined {
+  const colors = getBrandColors(data);
+  if (!colors.primary && !colors.primaryDark) return undefined;
+  return { background: `linear-gradient(115deg, ${colors.primary || colors.primaryDark}, ${colors.primaryDark || colors.primary})` };
+}
 export const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
@@ -177,3 +207,5 @@ export function buildYouTubeEmbedUrl(input?: string) {
   const params = new URLSearchParams({ autoplay: "1", mute: "1", controls: "0", rel: "0", playsinline: "1", loop: "1", playlist: videoId });
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
+
+
