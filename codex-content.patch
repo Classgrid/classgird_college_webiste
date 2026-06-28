@@ -1,0 +1,245 @@
+*** Begin Patch
+*** Delete File: content/college_website.ts
+*** Add File: content/college_website.ts
++export type TenantOrgType = "school" | "junior-college" | "coaching";
++
++export type TenantLink = {
++  label: string;
++  href: string;
++  subItems?: TenantLink[];
++};
++
++export type TenantMetricLabelMap = Record<TenantOrgType, string>;
++
++export type TenantSiteData = {
++  theme: {
++    primary: string;
++    primaryDark: string;
++    accent: string;
++    surface: string;
++    darkSurface: string;
++  };
++  institution: {
++    name: string;
++    shortName: string;
++    type: TenantOrgType | string;
++    tagline: string;
++    location: string;
++    address: string;
++    email: string;
++    phone: string;
++    whatsapp: string;
++    establishedYear: number | null;
++    logoText: string;
++    heroImage: string;
++  };
++  hero: {
++    badge: string;
++    headline: string;
++    subHeadline: string;
++    description: string;
++    videoUrl: string;
++    fallbackImages: string[];
++    fallbackImage: string;
++    primaryCta: TenantLink;
++    secondaryCta: TenantLink;
++    stats: Array<{
++      key: string;
++      icon: string;
++      value: string;
++      labels: TenantMetricLabelMap;
++    }>;
++  };
++  navLinks: TenantLink[];
++  home: {
++    highlights: Array<{ icon: string; value: string; label: string; description: string }>;
++    programsPreviewHeading: string;
++    noticesHeading: string;
++    facultyHeading: string;
++    galleryHeading: string;
++    testimonialsHeading: string;
++    showQuickEnquiryFor: string[];
++  };
++  aboutPage: {
++    bannerImage: string;
++    storyTitle: string;
++    story: string;
++    storyImage: string;
++    vision: string;
++    mission: string;
++    principal: { name: string; designation: string; message: string; image: string };
++    accreditations: string[];
++    typeSpecific: Record<TenantOrgType, { title: string; text: string }>;
++  };
++  programsPage: { title: string; description: string; eligibilitySteps: string[] };
++  programs: Array<{
++    id: string;
++    icon: string;
++    group: string;
++    name: string;
++    duration: string;
++    description: string;
++    subjects: string[];
++    intake: string;
++    eligibility: string;
++    schedule: string;
++  }>;
++  admissionBanner: {
++    title: string;
++    description: string;
++    importantDates: Array<{ label: string; date: string }>;
++    cta: TenantLink;
++  };
++  notices: Array<{ id: string; category: string; title: string; date: string; summary: string; body: string; pdfUrl: string }>;
++  meritPage: { years: string[]; resultStats: Array<{ label: string; value: string }> };
++  toppers: Array<{ id: string; name: string; score: string; program: string; batch: string; image: string }>;
++  meritLists: Array<{ id: string; title: string; program: string; round: string; date: string; pdfUrl: string }>;
++  feesPage: { academicYear: string; scholarshipTitle: string; scholarshipText: string; policies: Array<{ id: string; title: string; text: string }> };
++  fees: Array<{ id: string; program: string; intake: string; annualFees: string; oneTimeFees: string; total: string; installments: string[] }>;
++  faculty: Array<{ id: string; name: string; designation: string; department: string; subject: string; image: string }>;
++  gallery: {
++    categories: string[];
++    images: Array<{ id: string; category: string; image: string; title: string }>;
++    videos: Array<{ id: string; title: string; youtubeUrl: string; thumbnail: string }>;
++  };
++  testimonials: Array<{ id: string; name: string; batch: string; program: string; rating: number; text: string; image: string; facebook: string; linkedin: string }>;
++  eventsPage: { categories: string[] };
++  events: Array<{
++    slug: string;
++    title: string;
++    category: string;
++    status: "Upcoming" | "Past" | string;
++    date: string;
++    time: string;
++    venue: string;
++    image: string;
++    summary: string;
++    description: string;
++    registerLabel: string;
++    schedule: Array<{ time: string; title: string }>;
++    gallery: string[];
++  }>;
++  alumniPage: { heading: string; successStoriesHeading: string; connectHeading: string };
++  alumni: Array<{ id: string; name: string; batchYear: string; program: string; currentOrg: string; city: string; achievement: string; quote: string; linkedin: string; image: string }>;
++  blogPage: { categories: string[] };
++  blogPosts: Array<{ slug: string; category: string; title: string; excerpt: string; image: string; author: string; authorRole: string; date: string; content: string[] }>;
++  contactPage: { officeHours: string; mapEmbedUrl: string };
++  applyPage: { heading: string; confirmationPrefix: string; stepTitles: string[] };
++  mandatoryDisclosurePage: {
++    institutionDetails: Array<{ label: string; value: string }>;
++    trustDetails: Array<{ label: string; value: string }>;
++    affiliationDetails: Array<{ label: string; value: string }>;
++    infrastructureDetails: Array<{ label: string; value: string }>;
++    staffDetails: Array<{ label: string; value: string }>;
++    committees: Array<{ name: string; contact: string }>;
++    documents: Array<{ title: string; category: string; url: string }>;
++  };
++  committeesPage: {
++    description: string;
++    committees: Array<{ id: string; name: string; purpose: string; chairperson: string; members: string; contact: string }>;
++  };
++  infrastructurePage: { description: string; facilities: Array<{ id: string; title: string; description: string; image: string; highlights: string[] }> };
++  academicCalendarPage: {
++    year: string;
++    description: string;
++    entries: Array<{ id: string; title: string; category: string; startDate: string; endDate: string }>;
++    downloads: Array<{ label: string; url: string }>;
++  };
++  syllabusPage: { description: string; groups: Array<{ id: string; title: string; orgTypes: string[]; items: Array<{ name: string; pdfUrl: string }> }> };
++  examinationsPage: {
++    description: string;
++    patterns: Array<{ title: string; details: string }>;
++    assessments: Array<{ title: string; weightage: string }>;
++    schedules: Array<{ name: string; date: string }>;
++    downloads: Array<{ label: string; url: string }>;
++  };
++  studentsPage: {
++    description: string;
++    quickLinks: Array<{ label: string; href: string; description: string }>;
++    parentCorner: Array<{ label: string; value: string }>;
++    studentPolicies: string[];
++  };
++  downloadsPage: { description: string; categories: string[]; resources: Array<{ id: string; title: string; category: string; date: string; url: string }> };
++  quickEnquiry: { heading: string; description: string };
++  socialLinks: Array<{ label: string; href: string; platform: string }>;
++  footer: { importantLinks: TenantLink[]; legalLinks: TenantLink[]; newsletterCta: string };
++  uiStrings: {
++    header: { searchPlaceholder: string; contrastToggle: string };
++    footer: { importantLinksTitle: string; connectTitle: string; poweredBy: string; copyrightPrefix: string };
++  };
++};
++
++/**
++ * Template scope lock (do not remove):
++ * This multi-tenant public website template is only for school, junior-college, and coaching organizations.
++ * Engineering colleges are excluded because they typically run large pre-existing institutional websites
++ * with separate accreditation/ranking structures and BYOW onboarding.
++ */
++export const tenantWebsiteTemplateScope = {
++  supportedOrgTypes: ["school", "junior-college", "coaching"],
++  excludedOrgTypes: ["engineering-college"],
++  exclusionReason:
++    "Engineering colleges use BYOW flow due to their large legacy websites and accreditation-heavy content needs.",
++} as const;
++
++const blankTypeSpecific = {
++  school: { title: "", text: "" },
++  "junior-college": { title: "", text: "" },
++  coaching: { title: "", text: "" },
++};
++
++export function createEmptyTenantSiteData(): TenantSiteData {
++  return {
++    theme: { primary: "#8b1d2c", primaryDark: "#5f1420", accent: "#ffffff", surface: "#f9fafb", darkSurface: "#0f172a" },
++    institution: { name: "", shortName: "", type: "junior-college", tagline: "", location: "", address: "", email: "", phone: "", whatsapp: "", establishedYear: null, logoText: "", heroImage: "" },
++    hero: { badge: "", headline: "", subHeadline: "", description: "", videoUrl: "", fallbackImages: [], fallbackImage: "", primaryCta: { label: "Apply Now", href: "/apply" }, secondaryCta: { label: "Explore Programs", href: "/programs" }, stats: [] },
++    navLinks: [
++      { label: "Home", href: "/" },
++      { label: "About", href: "/about" },
++      { label: "Programs", href: "/programs" },
++      { label: "Notices", href: "/notices" },
++      { label: "Gallery", href: "/gallery" },
++      { label: "Contact", href: "/contact" },
++    ],
++    home: { highlights: [], programsPreviewHeading: "Programs", noticesHeading: "Latest Notices", facultyHeading: "Faculty", galleryHeading: "Gallery", testimonialsHeading: "Testimonials", showQuickEnquiryFor: ["junior-college", "coaching"] },
++    aboutPage: { bannerImage: "", storyTitle: "", story: "", storyImage: "", vision: "", mission: "", principal: { name: "", designation: "", message: "", image: "" }, accreditations: [], typeSpecific: blankTypeSpecific },
++    programsPage: { title: "", description: "", eligibilitySteps: [] },
++    programs: [],
++    admissionBanner: { title: "", description: "", importantDates: [], cta: { label: "Apply Now", href: "/apply" } },
++    notices: [],
++    meritPage: { years: [], resultStats: [] },
++    toppers: [],
++    meritLists: [],
++    feesPage: { academicYear: "", scholarshipTitle: "", scholarshipText: "", policies: [] },
++    fees: [],
++    faculty: [],
++    gallery: { categories: ["All"], images: [], videos: [] },
++    testimonials: [],
++    eventsPage: { categories: ["All"] },
++    events: [],
++    alumniPage: { heading: "", successStoriesHeading: "", connectHeading: "" },
++    alumni: [],
++    blogPage: { categories: ["All"] },
++    blogPosts: [],
++    contactPage: { officeHours: "", mapEmbedUrl: "" },
++    applyPage: { heading: "Apply for Admission", confirmationPrefix: "APP", stepTitles: ["Basic Info", "Academic Info", "Submit"] },
++    mandatoryDisclosurePage: { institutionDetails: [], trustDetails: [], affiliationDetails: [], infrastructureDetails: [], staffDetails: [], committees: [], documents: [] },
++    committeesPage: { description: "", committees: [] },
++    infrastructurePage: { description: "", facilities: [] },
++    academicCalendarPage: { year: "", description: "", entries: [], downloads: [] },
++    syllabusPage: { description: "", groups: [] },
++    examinationsPage: { description: "", patterns: [], assessments: [], schedules: [], downloads: [] },
++    studentsPage: { description: "", quickLinks: [], parentCorner: [], studentPolicies: [] },
++    downloadsPage: { description: "", categories: ["All"], resources: [] },
++    quickEnquiry: { heading: "Quick Enquiry", description: "" },
++    socialLinks: [],
++    footer: { importantLinks: [], legalLinks: [], newsletterCta: "Subscribe" },
++    uiStrings: { header: { searchPlaceholder: "Search site", contrastToggle: "Contrast" }, footer: { importantLinksTitle: "Important Links", connectTitle: "Connect", poweredBy: "Powered by Classgrid", copyrightPrefix: "Copyright" } },
++  };
++}
++
++export const collegeWebsiteData = createEmptyTenantSiteData();
++
++// Keep the historical misspelling for existing imports while the template is migrated.
++export const collgeWebsiteData = collegeWebsiteData;
+*** End Patch

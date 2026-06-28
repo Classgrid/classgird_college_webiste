@@ -1,0 +1,121 @@
+*** Begin Patch
+*** Delete File: content/college_website.ts
+*** Add File: content/college_website.ts
++type TenantDict = Record<string, any>;
++
++export type TenantOrgType = "school" | "junior-college" | "coaching";
++
++export type TenantLink = {
++  label: string;
++  href: string;
++  subItems?: TenantLink[];
++};
++
++export type TenantSiteData = {
++  theme: TenantDict;
++  institution: TenantDict;
++  hero: TenantDict;
++  navLinks: TenantLink[];
++  home: TenantDict;
++  aboutPage: TenantDict;
++  programsPage: TenantDict;
++  programs: TenantDict[];
++  admissionBanner: TenantDict;
++  notices: TenantDict[];
++  meritPage: TenantDict;
++  toppers: TenantDict[];
++  meritLists: TenantDict[];
++  feesPage: TenantDict;
++  fees: TenantDict[];
++  faculty: TenantDict[];
++  gallery: TenantDict;
++  testimonials: TenantDict[];
++  eventsPage: TenantDict;
++  events: TenantDict[];
++  alumniPage: TenantDict;
++  alumni: TenantDict[];
++  blogPage: TenantDict;
++  blogPosts: TenantDict[];
++  contactPage: TenantDict;
++  applyPage: TenantDict;
++  mandatoryDisclosurePage: TenantDict;
++  committeesPage: TenantDict;
++  infrastructurePage: TenantDict;
++  academicCalendarPage: TenantDict;
++  syllabusPage: TenantDict;
++  examinationsPage: TenantDict;
++  studentsPage: TenantDict;
++  downloadsPage: TenantDict;
++  quickEnquiry: TenantDict;
++  socialLinks: TenantDict[];
++  footer: TenantDict;
++  uiStrings: TenantDict;
++};
++
++/**
++ * Template scope lock (do not remove): this public website template is only for
++ * school, junior-college, and coaching organizations. Engineering colleges use
++ * BYOW onboarding because their legacy sites are usually accreditation-heavy.
++ */
++export const tenantWebsiteTemplateScope = {
++  supportedOrgTypes: ["school", "junior-college", "coaching"],
++  excludedOrgTypes: ["engineering-college"],
++  exclusionReason:
++    "Engineering colleges use BYOW flow due to their large legacy websites and accreditation-heavy content needs.",
++} as const;
++
++export function createEmptyTenantSiteData(): TenantSiteData {
++  return {
++    theme: { primary: "#8b1d2c", primaryDark: "#5f1420", accent: "#ffffff", surface: "#f9fafb", darkSurface: "#0f172a" },
++    institution: { name: "", shortName: "", type: "junior-college", tagline: "", location: "", address: "", email: "", phone: "", whatsapp: "", establishedYear: null, logoText: "", heroImage: "" },
++    hero: { badge: "", headline: "", subHeadline: "", description: "", videoUrl: "", fallbackImages: [], fallbackImage: "", primaryCta: { label: "Apply Now", href: "/apply" }, secondaryCta: { label: "Explore Programs", href: "/programs" }, stats: [] },
++    navLinks: [
++      { label: "Home", href: "/" },
++      { label: "About", href: "/about" },
++      { label: "Programs", href: "/programs" },
++      { label: "Notices", href: "/notices" },
++      { label: "Gallery", href: "/gallery" },
++      { label: "Contact", href: "/contact" },
++    ],
++    home: { highlights: [], programsPreviewHeading: "Programs", noticesHeading: "Latest Notices", facultyHeading: "Faculty", galleryHeading: "Gallery", testimonialsHeading: "Testimonials", showQuickEnquiryFor: ["junior-college", "coaching"] },
++    aboutPage: { bannerImage: "", storyTitle: "", story: "", storyImage: "", vision: "", mission: "", principal: { name: "", designation: "", message: "", image: "" }, accreditations: [], typeSpecific: { school: {}, "junior-college": {}, coaching: {} } },
++    programsPage: { title: "", description: "", eligibilitySteps: [] },
++    programs: [],
++    admissionBanner: { title: "", description: "", importantDates: [], cta: { label: "Apply Now", href: "/apply" } },
++    notices: [],
++    meritPage: { years: [], resultStats: [] },
++    toppers: [],
++    meritLists: [],
++    feesPage: { academicYear: "", scholarshipTitle: "", scholarshipText: "", policies: [] },
++    fees: [],
++    faculty: [],
++    gallery: { categories: ["All"], images: [], videos: [] },
++    testimonials: [],
++    eventsPage: { categories: ["All"] },
++    events: [],
++    alumniPage: { heading: "", successStoriesHeading: "", connectHeading: "" },
++    alumni: [],
++    blogPage: { categories: ["All"] },
++    blogPosts: [],
++    contactPage: { officeHours: "", mapEmbedUrl: "" },
++    applyPage: { heading: "Apply for Admission", confirmationPrefix: "APP", stepTitles: ["Basic Info", "Academic Info", "Submit"] },
++    mandatoryDisclosurePage: { institutionDetails: [], trustDetails: [], affiliationDetails: [], infrastructureDetails: [], staffDetails: [], committees: [], documents: [] },
++    committeesPage: { description: "", committees: [] },
++    infrastructurePage: { description: "", facilities: [] },
++    academicCalendarPage: { year: "", description: "", entries: [], downloads: [] },
++    syllabusPage: { description: "", groups: [] },
++    examinationsPage: { description: "", patterns: [], assessments: [], schedules: [], downloads: [] },
++    studentsPage: { description: "", quickLinks: [], parentCorner: [], studentPolicies: [] },
++    downloadsPage: { description: "", categories: ["All"], resources: [] },
++    quickEnquiry: { heading: "Quick Enquiry", description: "" },
++    socialLinks: [],
++    footer: { importantLinks: [], legalLinks: [], newsletterCta: "Subscribe" },
++    uiStrings: { header: { searchPlaceholder: "Search site", contrastToggle: "Contrast" }, footer: { importantLinksTitle: "Important Links", connectTitle: "Connect", poweredBy: "Powered by Classgrid", copyrightPrefix: "Copyright" } },
++  };
++}
++
++export const collegeWebsiteData = createEmptyTenantSiteData();
++
++// Preserve the historical misspelled export during migration.
++export const collgeWebsiteData = collegeWebsiteData;
+*** End Patch
