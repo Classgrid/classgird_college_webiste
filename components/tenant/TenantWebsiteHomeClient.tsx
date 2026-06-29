@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import type { TenantSiteData } from "@/content/college_website";
 import { FloatingRails, TenantSiteFooter, TenantSiteHeader } from "./TenantSiteShell";
 import { TenantHomePage } from "./TenantHomeSections";
@@ -31,7 +32,7 @@ import {
   SyllabusPage,
   SystemMessagePage,
 } from "./TenantPages";
-import { decodeRouteSegment, getBrandTitle, normalizeOrgType, resolveFacultyLabel, resolveProgramLabel } from "./tenant-utils";
+import { decodeRouteSegment, getBrandColors, getBrandLogo, getBrandTitle, normalizeOrgType, resolveFacultyLabel, resolveProgramLabel } from "./tenant-utils";
 
 type TenantWebsiteHomeClientProps = {
   data: TenantSiteData;
@@ -52,6 +53,24 @@ function buildSchema(data: TenantSiteData, tenantSlug?: string) {
   };
 }
 
+function hasTenantWebsiteData(data: TenantSiteData) {
+  return Boolean(
+    getBrandTitle(data) ||
+      getBrandLogo(data) ||
+      data.institution.tagline ||
+      data.hero.headline ||
+      data.hero.description ||
+      data.hero.fallbackImage ||
+      data.navLinks.length ||
+      data.home.highlights?.length ||
+      data.programs.length ||
+      data.notices.length ||
+      data.faculty.length ||
+      data.gallery.images?.length ||
+      data.events.length
+  );
+}
+
 export function TenantWebsiteHomeClient({ data, tenantSlug, segments = [] }: TenantWebsiteHomeClientProps) {
   const orgType = normalizeOrgType(data.institution.type);
   const programLabel = resolveProgramLabel(orgType);
@@ -61,6 +80,14 @@ export function TenantWebsiteHomeClient({ data, tenantSlug, segments = [] }: Ten
   const [isScrolled, setIsScrolled] = useState(false);
   const [fontScale, setFontScale] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
+  const brandColors = getBrandColors(data);
+  const mainStyle = {
+    fontFamily: "var(--font-tenant-body), sans-serif",
+    fontSize: `${fontScale}%`,
+    "--tenant-primary": brandColors.primary || undefined,
+    "--tenant-secondary": brandColors.secondary || undefined,
+    "--tenant-accent": brandColors.accent || undefined,
+  } as CSSProperties;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 80);
@@ -105,8 +132,24 @@ export function TenantWebsiteHomeClient({ data, tenantSlug, segments = [] }: Ten
     return <NotFoundRoute tenantSlug={tenantSlug} />;
   }, [data, facultyLabel, orgType, programLabel, segments, tenantSlug]);
 
+  if (!hasTenantWebsiteData(data)) {
+    return (
+      <main className="min-h-screen bg-white text-slate-900" style={mainStyle}>
+        <section className="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center px-6 py-16">
+          <div className="border-l-4 border-slate-900 pl-5">
+            <p className="text-sm font-semibold uppercase text-slate-500">Tenant website</p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight">No organization website data found</h1>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              This host did not resolve to an active Organization record or published website content.
+            </p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
-    <main className={`min-h-screen bg-white text-slate-900 ${highContrast ? "cg-high-contrast" : ""}`} style={{ fontFamily: "var(--font-tenant-body), sans-serif", fontSize: `${fontScale}%` }}>
+    <main className={`min-h-screen bg-white text-slate-900 ${highContrast ? "cg-high-contrast" : ""}`} style={mainStyle}>
       <a href="#tenant-main-content" className="sr-only z-[90] rounded-md bg-slate-900 px-3 py-2 text-xs font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
       <style jsx global>{`
         @keyframes cgNoticeScroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -115,7 +158,7 @@ export function TenantWebsiteHomeClient({ data, tenantSlug, segments = [] }: Ten
         .cg-testimonial-scroll { animation: cgTestimonialScroll 28s linear infinite; }
         .cg-high-contrast { filter: contrast(1.18); }
         .cg-high-contrast a { text-decoration-thickness: 2px; }
-        *:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 2px; }
+        *:focus-visible { outline: 2px solid var(--tenant-primary, CanvasText); outline-offset: 2px; }
       `}</style>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildSchema(data, tenantSlug)) }} />
       <TenantSiteHeader data={data} tenantSlug={tenantSlug} isScrolled={isScrolled} isHome={isHome} fontScale={fontScale} onFontScaleChange={setFontScale} highContrast={highContrast} onToggleHighContrast={() => setHighContrast((value) => !value)} />

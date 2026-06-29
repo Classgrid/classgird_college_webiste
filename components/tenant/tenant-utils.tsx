@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { TenantSiteData } from "@/content/college_website";
 import { animate, useInView } from "framer-motion";
+import { normalizeThemeColors } from "@/lib/theme";
 import {
   Award,
   BookOpen,
@@ -27,13 +28,18 @@ export function getBrandLogo(data: TenantSiteData) {
 }
 
 export function getBrandColors(data: TenantSiteData) {
-  const colors = data.globalBranding?.colors || {};
+  const colors = normalizeThemeColors({
+    ...(data.theme || {}),
+    ...(data.globalBranding?.colors || {}),
+  });
+
   return {
-    primary: colors.primary || colors.primaryColor || data.theme?.primary || "",
-    primaryDark: colors.primaryDark || colors.secondary || colors.secondaryColor || data.theme?.primaryDark || "",
-    accent: colors.accent || colors.accentColor || data.theme?.accent || "",
-    surface: colors.surface || data.theme?.surface || "",
-    darkSurface: colors.darkSurface || data.theme?.darkSurface || "",
+    primary: colors.primary || "",
+    secondary: colors.secondary || "",
+    primaryDark: colors.primaryDark || "",
+    accent: colors.accent || "",
+    surface: colors.surface || "",
+    darkSurface: colors.darkSurface || "",
   };
 }
 
@@ -44,8 +50,8 @@ export function brandBackground(data: TenantSiteData): CSSProperties | undefined
 
 export function brandGradient(data: TenantSiteData): CSSProperties | undefined {
   const colors = getBrandColors(data);
-  if (!colors.primary && !colors.primaryDark) return undefined;
-  return { background: `linear-gradient(115deg, ${colors.primary || colors.primaryDark}, ${colors.primaryDark || colors.primary})` };
+  if (!colors.primary && !colors.secondary) return undefined;
+  return { background: `linear-gradient(115deg, ${colors.primary || colors.secondary}, ${colors.secondary || colors.primary})` };
 }
 export const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -207,5 +213,3 @@ export function buildYouTubeEmbedUrl(input?: string) {
   const params = new URLSearchParams({ autoplay: "1", mute: "1", controls: "0", rel: "0", playsinline: "1", loop: "1", playlist: videoId });
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
-
-
