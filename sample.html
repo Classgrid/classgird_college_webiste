@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sample Page</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .box {
+      background: #eef2ff;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    button {
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background: #4338ca;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Sample Page</h1>
+  <p>
+    This is a simple HTML file with exactly 100 lines. It demonstrates basic
+    structure, styling, and layout using only vanilla HTML and CSS.
+  </p>
+  <div class="card">
+    <h2>About this file</h2>
+    <p>
+      The file was generated to show a clean, self-contained HTML document.
+      It includes a header, a styled card, a responsive grid, a list, a button,
+      and a footer.
+    </p>
+  </div>
+  <div class="grid">
+    <div class="box">Box One</div>
+    <div class="box">Box Two</div>
+    <div class="box">Box Three</div>
+    <div class="box">Box Four</div>
+  </div>
+  <h2>Key features</h2>
+  <ul>
+    <li>Responsive grid layout</li>
+    <li>Inline CSS styling</li>
+    <li>Semantic HTML elements</li>
+    <li>Hover effects on buttons</li>
+    <li>Clean, readable structure</li>
+  </ul>
+  <button onclick="alert('Button clicked!')">Click Me</button>
+  <footer>
+    &copy; 2026 Sample Page. Created for demonstration purposes.
+  </footer>
+</body>
+</html>
